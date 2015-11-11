@@ -62,6 +62,13 @@ class NormalizingNameChooser(object):
         if not check_id(name, required=1):
             return name
 
+        # https://github.com/plone/Products.CMFPlone/blob/master/Products/CMFPlone/skins/plone_scripts/check_id.py
+        # checkIdAvailable() always returns False for names starting with an
+        # underscore so remove them
+        # TODO: do this a better way
+        while name.startswith('_'):
+            name = '-' + name[1:]
+
         ext = ''
         m = FILENAME_REGEX.match(name)
         if m is not None:
